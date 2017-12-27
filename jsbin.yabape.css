@@ -1,0 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 960px;
+  background-color: ;
+  position: center;
+}
+
+h1 {
+  color: teal;
+}
+.summary, .information, .question {
+  display: none;
+}
+
+li.selected {
+  background-color: yellow;
+}
+li.correct {
+  background-color: green;
+}

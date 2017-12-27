@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+<style id="jsbin-css">
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 960px;
+  background-color: ;
+  position: center;
+}
+
+h1 {
+  color: teal;
+}
+.summary, .information, .question {
+  display: none;
+}
+
+li.selected {
+  background-color: yellow;
+}
+li.correct {
+  background-color: green;
+}
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>Color Theory Quiz</h1>
+  </header>
+  
+  <div class="startPage">
+    <h2>Click below to start your color quiz!</h2>
+    <p><input type="button" class="startButton" value="Start Here!"></p>
+  </div>
+    
+  <div class="question">
+    <h2>Question Title</h2>
+    <ul class="answers">
+      <li>one</li>
+      <li>two</li>
+      <li>three</li>
+      <li>four</li>
+    </ul>
+    <p><input type="button" class="submit" value="Submit Answer"></p>
+  </div>
+  
+    <div class="information">
+    <p class="progress">Question 0 of 10</p>
+    <p class="score">Score: x</p>
+  </div>
+  
+  <div class="summary">
+    <h2>Quiz Complete</h2>
+    <p class="summary-score">You scored 0 out of 10</p>
+    <p><input type="button" class="restart" value="Restart Quiz"></p>
+  </div>
+  
+<script src="https://code.jquery.com/jquery-2.0.3.js"></script>
+  
+<script id="jsbin-javascript">
+$(document).ready(function(){
+  var questions = [
+    {
+      title: 'What are the Primary colors?',
+      answers: ['Blue, Red, Green','Green, Purple, Orange','Yellow, Green, Pink',' Red, Blue, Yellow'],
+      correct: 3
+    },
+    {
+      title: 'What are the Secondary colors?',
+      answers: ['Green, Orange, Purple','Red, Blue, Yellow','Blue, Purple, Red','Orange, Yellow, Green'],
+      correct: 0
+    },
+    {
+      title: 'What are the Tertiary colors?',
+      answers: ['Yellow-orange, red-orange, red-purple, blue-purple, blue-green & yellow-green','Orange-red, Purple-Orange','Blue-green, Purple-Orange, Red-green','Red and Blue'],
+      correct: 1
+    },
+    {
+      title: 'Which of these is a warm color?',
+      answers: ['Blue','Green','Red','silver'],
+      correct: 2
+    },
+      {
+      title: 'Which of these is cool color?',
+      answers: ['Orange','Blue','Red','Yellow'],
+      correct: 1
+     },
+      {
+      title: 'Which of these is a neutral color?',
+      answers: ['Purple', 'Green', 'Red', 'Black'],
+      correct: 3
+      
+    },
+      {
+      title: 'Complementary colors are also known as ___ colors.',
+      answers: ['Analogous', 'Opposite', 'Tertiary', 'Supplementary'],
+      correct: 1
+      
+    },
+      {
+      title: 'Colors you cannot see through are called ___ colors.',
+      answers: ['Transparent','Opaque', 'Clear', 'Matt'],
+      correct: 3
+      
+    },
+      {
+      title: 'A ___ is a color mixed with the color white.',
+      answers: ['Shade', 'Tone', 'Tint', 'Hue'],
+      correct: 2
+      
+    },
+      {
+      title: 'A___ is a color mixed with the color black.',
+      answers: ['Tone','Tint','Shade','Hue'],
+      correct: 2
+      
+    }
+  ];
+  
+  var currentQuestion = 0;
+  var score = 0;
+  
+  /* event listeners */
+  displayQuestion();
+  
+  
+  $('.startButton').click(function(){
+    restartQuiz();
+  });
+                      
+  $('.answers').on('click','li',function(){
+    $('.selected').removeClass('selected');
+    $(this).addClass('selected');
+  });
+  
+  $('.submit').click(function(){
+    if($('li.selected').length > 0){
+      var answer = $('li.selected').attr('data-answer');
+      checkAnswer(answer);
+    } else {
+      alert('You must select an answer to proceed!');
+    }
+  });
+  
+  $('.restart').click(function(){
+    restartQuiz();
+  });
+  
+  
+  /* end of event listeners */
+  
+  
+  function displayQuestion(){
+    if(currentQuestion < questions.length){
+      var question = questions[currentQuestion];
+      $('.question h2').text(question.title);
+      $('.answers').html('');
+      for(var i=0; i<question.answers.length; i++){
+        $('.answers').append('<li data-answer="'+i+'">'+question.answers[i]+'</li>');
+      }
+      updateScore();
+      
+    } else {
+      showSummary();
+    }
+    
+  }
+  
+  function checkAnswer(answer){
+    var question = questions[currentQuestion];
+    if(question.correct == answer){
+      score++;
+    }
+    currentQuestion++;
+    displayQuestion();
+  }
+  
+  function updateScore(){
+    $('.score').text('Score: '+score);
+    $('.progress').text('Question '+(currentQuestion+1)+' of '+questions.length);
+  }
+  
+  function showSummary(){
+    $('.question').hide();
+    $('.information').hide();
+    $('.summary').show();
+    $('.summary-score').text('You scored '+score+' out of '+questions.length);
+    
+  }
+  
+  function restartQuiz(){
+    $('.question').show();
+    $('.information').show();
+    $('.summary').hide();
+    $('.startPage').hide();
+    
+    
+    score = 0;
+    currentQuestion = 0;
+    displayQuestion();
+  }
+  
+  
+  
+});
+</script>
+
+
+<script id="jsbin-source-css" type="text/css">* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 960px;
+  background-color: ;
+  position: center;
+}
+
+h1 {
+  color: teal;
+}
+.summary, .information, .question {
+  display: none;
+}
+
+li.selected {
+  background-color: yellow;
+}
+li.correct {
+  background-color: green;
+}
+
+</script>
+
+<script id="jsbin-source-javascript" type="text/javascript">$(document).ready(function(){
+  var questions = [
+    {
+      title: 'What are the Primary colors?',
+      answers: ['Blue, Red, Green','Green, Purple, Orange','Yellow, Green, Pink',' Red, Blue, Yellow'],
+      correct: 3
+    },
+    {
+      title: 'What are the Secondary colors?',
+      answers: ['Green, Orange, Purple','Red, Blue, Yellow','Blue, Purple, Red','Orange, Yellow, Green'],
+      correct: 0
+    },
+    {
+      title: 'What are the Tertiary colors?',
+      answers: ['Yellow-orange, red-orange, red-purple, blue-purple, blue-green & yellow-green','Orange-red, Purple-Orange','Blue-green, Purple-Orange, Red-green','Red and Blue'],
+      correct: 1
+    },
+    {
+      title: 'Which of these is a warm color?',
+      answers: ['Blue','Green','Red','silver'],
+      correct: 2
+    },
+      {
+      title: 'Which of these is cool color?',
+      answers: ['Orange','Blue','Red','Yellow'],
+      correct: 1
+     },
+      {
+      title: 'Which of these is a neutral color?',
+      answers: ['Purple', 'Green', 'Red', 'Black'],
+      correct: 3
+      
+    },
+      {
+      title: 'Complementary colors are also known as ___ colors.',
+      answers: ['Analogous', 'Opposite', 'Tertiary', 'Supplementary'],
+      correct: 1
+      
+    },
+      {
+      title: 'Colors you cannot see through are called ___ colors.',
+      answers: ['Transparent','Opaque', 'Clear', 'Matt'],
+      correct: 3
+      
+    },
+      {
+      title: 'A ___ is a color mixed with the color white.',
+      answers: ['Shade', 'Tone', 'Tint', 'Hue'],
+      correct: 2
+      
+    },
+      {
+      title: 'A___ is a color mixed with the color black.',
+      answers: ['Tone','Tint','Shade','Hue'],
+      correct: 2
+      
+    }
+  ];
+  
+  var currentQuestion = 0;
+  var score = 0;
+  
+  /* event listeners */
+  displayQuestion();
+  
+  
+  $('.startButton').click(function(){
+    restartQuiz();
+  });
+                      
+  $('.answers').on('click','li',function(){
+    $('.selected').removeClass('selected');
+    $(this).addClass('selected');
+  });
+  
+  $('.submit').click(function(){
+    if($('li.selected').length > 0){
+      var answer = $('li.selected').attr('data-answer');
+      checkAnswer(answer);
+    } else {
+      alert('You must select an answer to proceed!');
+    }
+  });
+  
+  $('.restart').click(function(){
+    restartQuiz();
+  });
+  
+  
+  /* end of event listeners */
+  
+  
+  function displayQuestion(){
+    if(currentQuestion < questions.length){
+      var question = questions[currentQuestion];
+      $('.question h2').text(question.title);
+      $('.answers').html('');
+      for(var i=0; i<question.answers.length; i++){
+        $('.answers').append('<li data-answer="'+i+'">'+question.answers[i]+'</li>');
+      }
+      updateScore();
+      
+    } else {
+      showSummary();
+    }
+    
+  }
+  
+  function checkAnswer(answer){
+    var question = questions[currentQuestion];
+    if(question.correct == answer){
+      score++;
+    }
+    currentQuestion++;
+    displayQuestion();
+  }
+  
+  function updateScore(){
+    $('.score').text('Score: '+score);
+    $('.progress').text('Question '+(currentQuestion+1)+' of '+questions.length);
+  }
+  
+  function showSummary(){
+    $('.question').hide();
+    $('.information').hide();
+    $('.summary').show();
+    $('.summary-score').text('You scored '+score+' out of '+questions.length);
+    
+  }
+  
+  function restartQuiz(){
+    $('.question').show();
+    $('.information').show();
+    $('.summary').hide();
+    $('.startPage').hide();
+    
+    
+    score = 0;
+    currentQuestion = 0;
+    displayQuestion();
+  }
+  
+  
+  
+});</script></body>
+</html>
